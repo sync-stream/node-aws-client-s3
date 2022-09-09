@@ -1,0 +1,56 @@
+## Set the name of our workflow
+name: 'Publish to NPM'
+
+## Define our trigger for the workflow
+on:
+
+  ## We want to trigger on pushes
+  push:
+
+    ## Define the branches we want this triggered on
+    branches:
+      - 'main'
+
+## Define the jobs for the workflow
+jobs:
+
+  ## Define our build job
+  build:
+
+    ## We want to run this on the latest version of Ubuntu
+    runs-on: 'ubuntu-latest'
+
+    ## Define our steps for the job
+    steps:
+
+      ## Checkout the repository
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+
+      ## Setup our NodeJS environment
+      - name: 'Setup NodeJS'
+        uses: 'actions/setup-node@v3'
+
+        ## Send our parameters to the action
+        with:
+
+          ## Define our NodeJS version (LTS)
+          node-version: '16.x'
+
+          ## Define our registry URL
+          registry-url: 'https://registry.npmjs.org'
+
+      ## Clean-install the project
+      - run: 'npm ci'
+
+      ## Transpile the codebase
+      - run: 'tsc'
+
+      ## Publish the package to NPM
+      - run: 'npm publish'
+
+        ## Define our environment variables for the NPM publish
+        env:
+
+          ## Define the authentication token for NPM
+          NODE_AUTH_TOKEN: ${{ secrets.SS_NPM_AUTH_TOKEN }}
