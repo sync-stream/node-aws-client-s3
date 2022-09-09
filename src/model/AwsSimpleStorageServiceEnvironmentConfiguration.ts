@@ -82,11 +82,13 @@ export class AwsSimpleStorageServiceEnvironmentConfiguration implements IAwsSimp
         this.secretAccessKey =
             (Environment.getEnvironmentVariable<string>('SS_AWS_SECRET_ACCESS_KEY', '') as string);
 
-
         // Set the custom user-agent string into the instance from the application's environment
         this.userAgent =
             Environment.getEnvironmentVariable('SS_AWS_CLIENT_USER_AGENT');
 
+
+        // Configure the application's environment
+        this.configureApplicationEnvironment();
     }
 
     /**
