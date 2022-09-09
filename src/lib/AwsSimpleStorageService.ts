@@ -80,15 +80,15 @@ export class AwsSimpleStorageService {
 
     /**
      * This method configures the library
-     * @param {IAwsSimpleStorageServiceConfiguration} configuration
+     * @param {IAwsSimpleStorageServiceConfiguration?} configuration
      * @public
      * @returns {void}
      * @static
      */
-    public static configure(configuration: IAwsSimpleStorageServiceConfiguration = new AwsSimpleStorageServiceEnvironmentConfiguration()): void {
+    public static configure(configuration?: IAwsSimpleStorageServiceConfiguration): void {
 
         // Set the configuration into the library
-        AwsSimpleStorageService.configuration = configuration;
+        AwsSimpleStorageService.configuration = (configuration ?? new AwsSimpleStorageServiceEnvironmentConfiguration());
 
         // Configure the client
         AwsSimpleStorageService.client = new S3({
